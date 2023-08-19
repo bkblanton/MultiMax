@@ -84,10 +84,8 @@ if __name__ == "__main__":
     with cProfile.Profile() as pr:
         try:
             for depth, evaluation in enumerate(evaluator.iter_evaluations()):
-                # print(f"\r{evaluation}", end="")
                 print(f"{depth}:")
                 pprint(evaluation)
-                # pprint(evaluator.get_candidates())
                 print()
         except KeyboardInterrupt:
             pass
