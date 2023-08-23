@@ -145,7 +145,7 @@ class MCTSEvaluator(BaseEvaluator[MCTSEvaluation]):
         self.transposition_cache[state] = branches
 
         # Return the evaluation if at a leaf node.
-        if not branches:
+        if not branches or depth <= 0:
             score = self.game.get_score()
             leaf_evaluation = MCTSEvaluation(
                 state=state,
@@ -161,7 +161,7 @@ class MCTSEvaluator(BaseEvaluator[MCTSEvaluation]):
         # Select and evaluate the branch with the highest UCT.
         ucts = [self._get_uct(branch.evaluation, evaluation) for branch in branches]
         branch = branches[max(range(len(branches)), key=ucts.__getitem__)]
-        branch.evaluation, leaf_evaluation = self._evaluate_sequence([branch], depth)
+        branch.evaluation, leaf_evaluation = self._evaluate_sequence([branch], depth - 1)
         branch.transposition = branch.evaluation.state
 
         # Back-propagate the simulation result.
